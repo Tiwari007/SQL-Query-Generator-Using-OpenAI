@@ -1,0 +1,10 @@
+POST http://localhost:8000/completion HTTP/1.1
+content-type: application/json
+{
+    "message": "Create a table User"
+}
+
+
+###
+
+GET http://localhost:8000/sample

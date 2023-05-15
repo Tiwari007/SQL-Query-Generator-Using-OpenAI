@@ -1,9 +1,12 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import { Configuration, OpenAIApi } from 'openai';
+import * as dotenv from 'dotenv'
 
 const app: Application = express();
 const PORT: number = 8000;
+
+dotenv.config()
 
 app.use(cors())
 app.use(express.json())
@@ -16,11 +19,11 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration)
 
 app.get("/sample", (req: Request, res: Response) => {
-    res.send("done")
+    res.send({message: "done"})
 })
 
 
-app.post("/completion", async(req: Request, res: Response) => {
+app.post("/completions", async(req: Request, res: Response) => {
     try {
         const completion = await openai.createChatCompletion({
             model: "gpt-4",
@@ -30,7 +33,7 @@ app.post("/completion", async(req: Request, res: Response) => {
             }]
         })
 
-        res.status(200).send(completion.data.choices[0].message)
+        res.send(completion.data.choices[0].message)
         
     } catch (error) {
         console.error(error);
